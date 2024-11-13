@@ -10,7 +10,7 @@ import reactor.core.publisher.Mono;
 
 @RestController
 @Slf4j
-@RequestMapping("api/v1/customer")
+@RequestMapping("api/v1/customers")
 public class CustomerController {
 
   private CustomerService customerService;

@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: microservicio01
+  cloud:
+    config:
+      uri: http://localhost:8888
+      username: root
+      password: pr0y3ct1

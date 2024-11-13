@@ -1,7 +1,0 @@
-server:
-  port: 8081
-spring:
-  data:
-    mongodb:
-      uri: mongodb+srv://nttdatauser:s2D4xMuLPx5zMj0f@dbbootcamp57.0qsps.mongodb.net/?retryWrites=true&w=majority&appName=dbbootcamp57
-      database: Bootcamp57
