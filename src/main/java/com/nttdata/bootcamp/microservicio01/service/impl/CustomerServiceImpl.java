@@ -1,41 +1,61 @@
 package com.nttdata.bootcamp.microservicio01.service.impl;
 
 import com.nttdata.bootcamp.microservicio01.model.Customer;
+import com.nttdata.bootcamp.microservicio01.repository.CustomerRepository;
 import com.nttdata.bootcamp.microservicio01.service.CustomerService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+@Slf4j
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
+  private CustomerRepository customerRepository;
+
+  public CustomerServiceImpl (CustomerRepository customerRepository) {
+    this.customerRepository = customerRepository;
+  }
   @Override
   public Mono<Customer> create(Customer customer) {
-    return null;
+    log.info("Create a customer in the service.");
+    return customerRepository.save(customer);
   }
 
   @Override
   public Mono<Customer> findById(String customerId) {
-    return Mono.empty();
+    log.info("Find by id a customer in the service.");
+    return customerRepository.findById(customerId).switchIfEmpty(Mono.empty());
   }
 
   @Override
   public Flux<Customer> findAll() {
-    return null;
+    log.info("List all customers in the service.");
+    return customerRepository.findAll();
   }
 
   @Override
   public Mono<Customer> update(Customer customer) {
-    return null;
+    log.info("Update a customer in the service.");
+    return customerRepository.save(customer);
   }
 
   @Override
   public Mono<Customer> change(Customer customer) {
-    return null;
+    log.info("Change a customer in the service.");
+    return customerRepository.findById(customer.getId())
+            .flatMap(customerDB -> {
+              return create(customer);
+            })
+            .switchIfEmpty(Mono.empty());
   }
 
   @Override
   public Mono<Customer> remove(String customerId) {
-    return null;
+    log.info("Delete a customer in the service.");
+    return customerRepository
+            .findById(customerId)
+            .flatMap(p -> customerRepository.deleteById(p.getId()).thenReturn(p));
   }
 }

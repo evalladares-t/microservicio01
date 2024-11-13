@@ -1,9 +1,20 @@
 package com.nttdata.bootcamp.microservicio01.model;
 
-public class TypeDocumentIdentity {
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
-  private int id;
-  private String description;
-  private boolean isActive;
+
+@Getter
+@AllArgsConstructor
+public enum TypeDocumentIdentity {
+
+
+  DNI("DNI", true),
+  CE("CE", true),
+  PASSPORT("PASSPORT", true),
+  RUC("RUC", true);
+
+  private final String description;
+  private final boolean isActive;
 
 }

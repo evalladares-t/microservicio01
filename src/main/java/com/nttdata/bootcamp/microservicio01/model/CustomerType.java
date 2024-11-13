@@ -1,8 +1,16 @@
 package com.nttdata.bootcamp.microservicio01.model;
 
-public class CustomerType {
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
-  private int id;
-  private String description;
-  private boolean isActive;
+
+@Getter
+@AllArgsConstructor
+public enum  CustomerType {
+
+  PERSONAL("personal", true),
+  EMPRESARIAL("empresarial", true);
+
+  private final String description;
+  private final boolean isActive;
 }

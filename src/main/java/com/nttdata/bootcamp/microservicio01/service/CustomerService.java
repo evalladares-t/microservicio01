@@ -7,11 +7,11 @@ import reactor.core.publisher.Mono;
 
 public interface CustomerService {
 
-  Mono<Customer> create(Customer customer);
-
   Mono<Customer> findById(String customerId);
 
   Flux<Customer> findAll();
+
+  Mono<Customer> create(Customer customer);
 
   Mono<Customer> update(Customer customer);
 

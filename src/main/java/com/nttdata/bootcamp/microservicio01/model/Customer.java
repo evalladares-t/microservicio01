@@ -21,17 +21,13 @@ public class Customer {
 
   @Id
   private String id = UUID.randomUUID().toString();
-  private String firstname;
-  private String lastname;
-  private String companyName;
-  private String email;
-  private Address address;
-  private String telephone;
+  private CustomerType customerType;
+  private String firstName;
+  private String lastName;
+  private DocumentIdentity documentIdentity;
+  private Contact contact;
   private Date dateBirth;
   private char sex;
   private boolean isActive;
-  private CustomerType customerType;
-  private DocumentIdentity documentIdentity;
-  private String username;
 
 }

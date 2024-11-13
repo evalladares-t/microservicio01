@@ -9,12 +9,9 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Address {
+public class Contact {
 
-  private String type;
-  private String name;
-  private int number;
-  private String province;
-  private String district;
-  private String department;
+  private String email;
+  private Address address;
+  private String phone;
 }
