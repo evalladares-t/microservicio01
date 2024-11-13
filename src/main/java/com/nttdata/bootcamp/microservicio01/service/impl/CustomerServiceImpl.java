@@ -4,6 +4,7 @@ import com.nttdata.bootcamp.microservicio01.model.Customer;
 import com.nttdata.bootcamp.microservicio01.repository.CustomerRepository;
 import com.nttdata.bootcamp.microservicio01.service.CustomerService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -19,8 +20,17 @@ public class CustomerServiceImpl implements CustomerService {
   }
   @Override
   public Mono<Customer> create(Customer customer) {
+
     log.info("Create a customer in the service.");
-    return customerRepository.save(customer);
+    return customerRepository.findByDocumentIdentity_NumberAndDocumentIdentity_TypeDocumentIdentity(customer.getDocumentIdentity().getNumber(), customer.getDocumentIdentity().getTypeDocumentIdentity())
+            .switchIfEmpty(Mono.just(new Customer()))
+            .filter(c -> c.getDocumentIdentity() == null)
+            .doOnNext(s -> {
+              BeanUtils.copyProperties(customer, s);
+              s.setActive(true);
+              s.getDocumentIdentity().setActive(true);
+            })
+            .flatMap(customerRepository::insert);
   }
 
   @Override
@@ -54,8 +64,8 @@ public class CustomerServiceImpl implements CustomerService {
   @Override
   public Mono<Customer> remove(String customerId) {
     log.info("Delete a customer in the service.");
-    return customerRepository
-            .findById(customerId)
-            .flatMap(p -> customerRepository.deleteById(p.getId()).thenReturn(p));
+    return customerRepository.findById(customerId).switchIfEmpty(Mono.empty())
+            .doOnNext(p -> p.setActive(false))
+            .flatMap(customerRepository::save);
   }
 }

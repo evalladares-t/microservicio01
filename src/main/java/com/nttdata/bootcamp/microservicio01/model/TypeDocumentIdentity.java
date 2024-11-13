@@ -8,13 +8,11 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum TypeDocumentIdentity {
 
-
-  DNI("DNI", true),
-  CE("CE", true),
-  PASSPORT("PASSPORT", true),
-  RUC("RUC", true);
+  DNI("DNI"),
+  CE("CE"),
+  PASSPORT("PASSPORT"),
+  RUC("RUC");
 
   private final String description;
-  private final boolean isActive;
 
 }
