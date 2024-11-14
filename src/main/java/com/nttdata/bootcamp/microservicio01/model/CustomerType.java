@@ -9,7 +9,7 @@ import lombok.Getter;
 public enum  CustomerType {
 
   PERSONAL("personal", true),
-  EMPRESARIAL("empresarial", true);
+  BUSINESS("business", true);
 
   private final String description;
   private final boolean isActive;

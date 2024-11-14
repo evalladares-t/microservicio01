@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -15,7 +14,6 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Slf4j
 @Document(collection = "customer")
 public class Customer {
 
@@ -28,6 +26,6 @@ public class Customer {
   private Contact contact;
   private Date dateBirth;
   private char sex;
-  private boolean isActive;
+  private Boolean active;
 
 }
