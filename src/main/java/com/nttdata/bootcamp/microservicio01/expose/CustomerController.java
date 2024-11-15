@@ -19,7 +19,7 @@ public class CustomerController {
     this.customerService = customerService;
   }
 
-  @GetMapping("/list")
+  @GetMapping({"", "/"})
   public  Flux<Customer> findAll() {
     log.info("List all customers in the controller.");
     return customerService.findAll();

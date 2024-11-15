@@ -3,6 +3,8 @@ package com.nttdata.bootcamp.microservicio01.service.impl;
 import com.nttdata.bootcamp.microservicio01.model.Customer;
 import com.nttdata.bootcamp.microservicio01.repository.CustomerRepository;
 import com.nttdata.bootcamp.microservicio01.service.CustomerService;
+import com.nttdata.bootcamp.microservicio01.utils.constant.ErrorCode;
+import com.nttdata.bootcamp.microservicio01.utils.exception.OperationNoCompletedException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -36,7 +38,7 @@ public class CustomerServiceImpl implements CustomerService {
   @Override
   public Mono<Customer> findById(String customerId) {
     log.info("Find by id a customer in the service.");
-    return customerRepository.findById(customerId).switchIfEmpty(Mono.empty());
+    return customerRepository.findById(customerId).switchIfEmpty(Mono.error(new OperationNoCompletedException(ErrorCode.OPERATION_NO_COMPLETED.getCode(), ErrorCode.OPERATION_NO_COMPLETED.getMessage())));
   }
 
   @Override
@@ -58,13 +60,13 @@ public class CustomerServiceImpl implements CustomerService {
             .flatMap(customerDB -> {
               return create(customer);
             })
-            .switchIfEmpty(Mono.empty());
+            .switchIfEmpty(Mono.error(new OperationNoCompletedException(ErrorCode.OPERATION_NO_COMPLETED.getCode(), ErrorCode.OPERATION_NO_COMPLETED.getMessage())));
   }
 
   @Override
   public Mono<Customer> remove(String customerId) {
     log.info("Delete a customer in the service.");
-    return customerRepository.findById(customerId).switchIfEmpty(Mono.empty())
+    return customerRepository.findById(customerId).switchIfEmpty(Mono.error(new OperationNoCompletedException(ErrorCode.OPERATION_NO_COMPLETED.getCode(), ErrorCode.OPERATION_NO_COMPLETED.getMessage())))
             .doOnNext(p -> p.setActive(false))
             .flatMap(customerRepository::save);
   }
