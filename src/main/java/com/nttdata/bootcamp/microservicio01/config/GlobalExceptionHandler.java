@@ -1,5 +1,6 @@
 package com.nttdata.bootcamp.microservicio01.config;
 
+import com.nttdata.bootcamp.microservicio01.utils.constant.ErrorCode;
 import com.nttdata.bootcamp.microservicio01.utils.exception.OperationNoCompletedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,12 +24,11 @@ public class GlobalExceptionHandler {
             .body(errorResponse));
   }
 
-
   @ExceptionHandler(Exception.class)
   public Mono<ResponseEntity<Map<String, String>>> handleGenericException(Exception ex) {
     Map<String, String> errorResponse = new HashMap<>();
-    errorResponse.put("errorCode", "500");
-    errorResponse.put("errorMessage", "Internal Server Error");
+    errorResponse.put("errorCode", ErrorCode.INTERNAL_SERVER_ERROR.getCode());
+    errorResponse.put("errorMessage", ErrorCode.INTERNAL_SERVER_ERROR.getMessage());
     return Mono.just(ResponseEntity
             .status(HttpStatus.INTERNAL_SERVER_ERROR)
             .body(errorResponse));

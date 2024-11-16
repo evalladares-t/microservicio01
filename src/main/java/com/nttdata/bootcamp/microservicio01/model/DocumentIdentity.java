@@ -13,6 +13,6 @@ public class DocumentIdentity {
 
   private String number;
   private TypeDocumentIdentity typeDocumentIdentity;
-  private boolean isActive;
+  private boolean active;
 
 }

@@ -41,18 +41,18 @@ public class CustomerController {
             .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));
   }
 
-  @PutMapping({"", "/"})
-  public Mono<ResponseEntity<Customer>> update(@RequestBody Customer customer) {
+  @PutMapping({"/{id}/", "/{id}"})
+  public Mono<ResponseEntity<Customer>> update(@RequestBody Customer customer, @PathVariable("id") String customerId) {
     log.info("Update a customer in the controller.");
-    return customerService.update(customer)
+    return customerService.update(customer, customerId)
             .flatMap(customerUpdate -> Mono.just(ResponseEntity.ok(customerUpdate)))
             .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));
   }
 
-  @PatchMapping({"", "/"})
-  public Mono<ResponseEntity<Customer>> change(@RequestBody Customer customer) {
+  @PatchMapping({"/{id}/", "/{id}"})
+  public Mono<ResponseEntity<Customer>> change(@RequestBody Customer customer, @PathVariable("id") String customerId) {
     log.info("Change a customer in the controller.");
-    return customerService.change(customer)
+    return customerService.change(customer, customerId)
             .flatMap(customerUpdate -> Mono.just(ResponseEntity.ok(customerUpdate)))
             .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));
   }
