@@ -25,7 +25,7 @@ public class CustomerController {
     return customerService.findAll();
   }
 
-  @GetMapping("/{id}")
+  @GetMapping({"/{id}/", "/{id}"})
   public Mono<ResponseEntity<Customer>> findbyId(@PathVariable("id") String id) {
     log.info("Find by id a customer in the controller.");
     return customerService.findById(id)
@@ -57,7 +57,7 @@ public class CustomerController {
             .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));
   }
 
-  @DeleteMapping("/{id}")
+  @DeleteMapping({"/{id}/", "/{id}"})
   public Mono<ResponseEntity<Customer>> delete(@PathVariable("id") String id) {
     log.info("Delete a customer in the controller.");
     return customerService.remove(id)
