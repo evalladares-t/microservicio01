@@ -11,9 +11,9 @@ import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRep
 public class Microservicio01Application {
 
   private static final Logger log = LoggerFactory.getLogger(Microservicio01Application.class);
+
   public static void main(String[] args) {
     SpringApplication.run(Microservicio01Application.class, args);
     log.info("Hello World");
   }
-
 }

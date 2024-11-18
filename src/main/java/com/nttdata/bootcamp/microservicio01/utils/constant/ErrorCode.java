@@ -6,7 +6,6 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum ErrorCode {
-
   DATA_NOT_FOUND("404", "Data not found"),
   INVALID_REQUEST("400", "Invalid request parameters"),
   CUSTOMER_NO_CREATED("404", "The customer was not created"),
@@ -18,5 +17,4 @@ public enum ErrorCode {
 
   private final String code;
   private final String message;
-
 }

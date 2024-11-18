@@ -4,7 +4,15 @@ import com.nttdata.bootcamp.microservicio01.model.Customer;
 import com.nttdata.bootcamp.microservicio01.service.CustomerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -20,7 +28,7 @@ public class CustomerController {
   }
 
   @GetMapping({"", "/"})
-  public  Flux<Customer> findAll() {
+  public Flux<Customer> findAll() {
     log.info("List all customers in the controller.");
     return customerService.findAll();
   }
@@ -28,40 +36,47 @@ public class CustomerController {
   @GetMapping({"/{id}/", "/{id}"})
   public Mono<ResponseEntity<Customer>> findbyId(@PathVariable("id") String id) {
     log.info("Find by id a customer in the controller.");
-    return customerService.findById(id)
-            .flatMap(customerCreate -> Mono.just(ResponseEntity.ok(customerCreate)))
-            .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));
+    return customerService
+        .findById(id)
+        .flatMap(customerCreate -> Mono.just(ResponseEntity.ok(customerCreate)))
+        .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));
   }
 
   @PostMapping({"", "/"})
   public Mono<ResponseEntity<Customer>> create(@RequestBody Customer customer) {
     log.info("Create a customer in the controller.");
-    return customerService.create(customer)
-            .flatMap(customerCreate -> Mono.just(ResponseEntity.ok(customerCreate)))
-            .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));
+    return customerService
+        .create(customer)
+        .flatMap(customerCreate -> Mono.just(ResponseEntity.ok(customerCreate)))
+        .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));
   }
 
   @PutMapping({"/{id}/", "/{id}"})
-  public Mono<ResponseEntity<Customer>> update(@RequestBody Customer customer, @PathVariable("id") String customerId) {
+  public Mono<ResponseEntity<Customer>> update(
+      @RequestBody Customer customer, @PathVariable("id") String customerId) {
     log.info("Update a customer in the controller.");
-    return customerService.update(customer, customerId)
-            .flatMap(customerUpdate -> Mono.just(ResponseEntity.ok(customerUpdate)))
-            .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));
+    return customerService
+        .update(customer, customerId)
+        .flatMap(customerUpdate -> Mono.just(ResponseEntity.ok(customerUpdate)))
+        .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));
   }
 
   @PatchMapping({"/{id}/", "/{id}"})
-  public Mono<ResponseEntity<Customer>> change(@RequestBody Customer customer, @PathVariable("id") String customerId) {
+  public Mono<ResponseEntity<Customer>> change(
+      @RequestBody Customer customer, @PathVariable("id") String customerId) {
     log.info("Change a customer in the controller.");
-    return customerService.change(customer, customerId)
-            .flatMap(customerUpdate -> Mono.just(ResponseEntity.ok(customerUpdate)))
-            .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));
+    return customerService
+        .change(customer, customerId)
+        .flatMap(customerUpdate -> Mono.just(ResponseEntity.ok(customerUpdate)))
+        .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));
   }
 
   @DeleteMapping({"/{id}/", "/{id}"})
   public Mono<ResponseEntity<Customer>> delete(@PathVariable("id") String id) {
     log.info("Delete a customer in the controller.");
-    return customerService.remove(id)
-            .flatMap(customer -> Mono.just(ResponseEntity.ok(customer)))
-            .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));
+    return customerService
+        .remove(id)
+        .flatMap(customer -> Mono.just(ResponseEntity.ok(customer)))
+        .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));
   }
 }

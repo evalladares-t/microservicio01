@@ -1,0 +1,278 @@
+[
+  {
+    "id": "9b2c8908-0a53-4500-93ae-7f792a9d14fc",
+    "customerType": "BUSINESS",
+    "firstName": "Edward Joseph",
+    "lastName": "valladares Tavera",
+    "documentIdentity": {
+      "number": "76466285",
+      "typeDocumentIdentity": "DNI",
+      "active": true
+    },
+    "contact": {
+      "email": "Evalladarestav@gmail.com",
+      "address": {
+        "type": "Domicilio",
+        "name": "Sector 3 Grupo 9 Manzana E Lote 13",
+        "number": 1,
+        "province": "Lima",
+        "district": "Villa el Salvador",
+        "department": "Lima"
+      },
+      "phone": "940811595"
+    },
+    "dateBirth": "1995-06-08T15:30:00.000+00:00",
+    "sex": "M",
+    "active": true
+  },
+  {
+    "customerType": "PERSONAL",
+    "firstName": "Maria Fernanda",
+    "lastName": "Gómez Pérez",
+    "documentIdentity": {
+      "id": "2",
+      "number": "45678912",
+      "typeDocumentIdentity": "DNI",
+      "active": true
+    },
+    "contact": {
+      "email": "mariagomez@gmail.com",
+      "address": {
+        "type": "Domicilio",
+        "name": "Av. Los Olivos 123",
+        "number": 2,
+        "department": "Lima",
+        "province": "Lima",
+        "district": "San Borja"
+      },
+      "phone": "987654321"
+    },
+    "dateBirth": "1988-11-22T10:15:00.000Z",
+    "sex": "F"
+  },
+  {
+    "customerType": "BUSINESS",
+    "firstName": "Carlos Alberto",
+    "lastName": "Ramírez Torres",
+    "documentIdentity": {
+      "id": "3",
+      "number": "87456123",
+      "typeDocumentIdentity": "DNI",
+      "active": true
+    },
+    "contact": {
+      "email": "carlos.ramirez@empresa.com",
+      "address": {
+        "type": "Oficina",
+        "name": "Av. Arequipa 564",
+        "number": 3,
+        "department": "Lima",
+        "province": "Lima",
+        "district": "Miraflores"
+      },
+      "phone": "923456789"
+    },
+    "dateBirth": "1985-02-14T08:45:00.000Z",
+    "sex": "M"
+  },
+  {
+    "customerType": "PERSONAL",
+    "firstName": "Luis Enrique",
+    "lastName": "Salazar Ruiz",
+    "documentIdentity": {
+      "id": "4",
+      "number": "65789432",
+      "typeDocumentIdentity": "DNI",
+      "active": true
+    },
+    "contact": {
+      "email": "luis.salazar@gmail.com",
+      "address": {
+        "type": "Domicilio",
+        "name": "Calle Las Magnolias 321",
+        "number": 4,
+        "department": "Cusco",
+        "province": "Cusco",
+        "district": "Wanchaq"
+      },
+      "phone": "912345678"
+    },
+    "dateBirth": "1990-09-12T14:20:00.000Z",
+    "sex": "M"
+  },
+  {
+    "customerType": "BUSINESS",
+    "firstName": "Ana Patricia",
+    "lastName": "Vargas López",
+    "documentIdentity": {
+      "id": "5",
+      "number": "12345678",
+      "typeDocumentIdentity": "DNI",
+      "active": true
+    },
+    "contact": {
+      "email": "ana.vargas@empresa.com",
+      "address": {
+        "type": "Oficina",
+        "name": "Jr. Las Palmeras 987",
+        "number": 5,
+        "department": "Arequipa",
+        "province": "Arequipa",
+        "district": "Yanahuara"
+      },
+      "phone": "934567890"
+    },
+    "dateBirth": "1982-07-07T09:00:00.000Z",
+    "sex": "F"
+  },
+  {
+    "customerType": "PERSONAL",
+    "firstName": "Pedro Juan",
+    "lastName": "Martínez Vega",
+    "documentIdentity": {
+      "id": "6",
+      "number": "34567891",
+      "typeDocumentIdentity": "DNI",
+      "active": true
+    },
+    "contact": {
+      "email": "pedro.martinez@gmail.com",
+      "address": {
+        "type": "Domicilio",
+        "name": "Calle Los Cedros 654",
+        "number": 6,
+        "department": "Lambayeque",
+        "province": "Chiclayo",
+        "district": "José Leonardo Ortiz"
+      },
+      "phone": "945678123"
+    },
+    "dateBirth": "1998-03-18T17:40:00.000Z",
+    "sex": "M"
+  },
+  {
+    "customerType": "BUSINESS",
+    "firstName": "Lucía Andrea",
+    "lastName": "Rojas Pérez",
+    "documentIdentity": {
+      "id": "7",
+      "number": "56789012",
+      "typeDocumentIdentity": "DNI",
+      "active": true
+    },
+    "contact": {
+      "email": "lucia.rojas@empresa.com",
+      "address": {
+        "type": "Oficina",
+        "name": "Av. Primavera 321",
+        "number": 7,
+        "department": "Lima",
+        "province": "Lima",
+        "district": "Surco"
+      },
+      "phone": "978654321"
+    },
+    "dateBirth": "1992-05-05T11:50:00.000Z",
+    "sex": "F"
+  },
+  {
+    "customerType": "PERSONAL",
+    "firstName": "Jorge Luis",
+    "lastName": "Ortega Silva",
+    "documentIdentity": {
+      "id": "8",
+      "number": "67890123",
+      "typeDocumentIdentity": "DNI",
+      "active": true
+    },
+    "contact": {
+      "email": "jorge.ortega@gmail.com",
+      "address": {
+        "type": "Domicilio",
+        "name": "Pasaje Los Rosales 789",
+        "number": 8,
+        "department": "Piura",
+        "province": "Piura",
+        "district": "Catacaos"
+      },
+      "phone": "956789123"
+    },
+    "dateBirth": "1987-10-10T20:30:00.000Z",
+    "sex": "M"
+  },
+  {
+    "customerType": "BUSINESS",
+    "firstName": "Gabriela Isabel",
+    "lastName": "Fernández Torres",
+    "documentIdentity": {
+      "id": "9",
+      "number": "78901234",
+      "typeDocumentIdentity": "DNI",
+      "active": true
+    },
+    "contact": {
+      "email": "gabriela.fernandez@empresa.com",
+      "address": {
+        "type": "Oficina",
+        "name": "Jr. La Merced 654",
+        "number": 9,
+        "department": "Junín",
+        "province": "Huancayo",
+        "district": "El Tambo"
+      },
+      "phone": "964123789"
+    },
+    "dateBirth": "1996-04-25T12:10:00.000Z",
+    "sex": "F"
+  },
+  {
+    "customerType": "PERSONAL",
+    "firstName": "Ricardo Javier",
+    "lastName": "Cáceres Blanco",
+    "documentIdentity": {
+      "id": "10",
+      "number": "89012345",
+      "typeDocumentIdentity": "DNI",
+      "active": true
+    },
+    "contact": {
+      "email": "ricardo.caceres@gmail.com",
+      "address": {
+        "type": "Domicilio",
+        "name": "Av. San Martín 123",
+        "number": 10,
+        "department": "Lima",
+        "province": "Lima",
+        "district": "Barranco"
+      },
+      "phone": "956321478"
+    },
+    "dateBirth": "1991-08-19T15:20:00.000Z",
+    "sex": "M"
+  },
+  {
+    "customerType": "BUSINESS",
+    "firstName": "Rosa María",
+    "lastName": "Castillo Cruz",
+    "documentIdentity": {
+      "id": "11",
+      "number": "90123456",
+      "typeDocumentIdentity": "DNI",
+      "active": true
+    },
+    "contact": {
+      "email": "rosa.castillo@empresa.com",
+      "address": {
+        "type": "Oficina",
+        "name": "Av. Los Héroes 987",
+        "number": 11,
+        "department": "Lima",
+        "province": "Lima",
+        "district": "San Juan de Miraflores"
+      },
+      "phone": "987456321"
+    },
+    "dateBirth": "1984-12-30T18:00:00.000Z",
+    "sex": "F"
+  }
+]

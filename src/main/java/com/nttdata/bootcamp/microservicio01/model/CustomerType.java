@@ -3,11 +3,9 @@ package com.nttdata.bootcamp.microservicio01.model;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-
 @Getter
 @AllArgsConstructor
-public enum  CustomerType {
-
+public enum CustomerType {
   PERSONAL("personal", true),
   BUSINESS("business", true);
 

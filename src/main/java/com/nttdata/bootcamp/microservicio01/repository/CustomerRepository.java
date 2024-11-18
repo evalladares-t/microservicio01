@@ -7,7 +7,8 @@ import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Mono;
 
 @Repository
-public interface CustomerRepository extends ReactiveMongoRepository<Customer,String> {
+public interface CustomerRepository extends ReactiveMongoRepository<Customer, String> {
 
-  Mono<Customer> findByDocumentIdentity_NumberAndDocumentIdentity_TypeDocumentIdentity(String numberDocumentIdentity, TypeDocumentIdentity typeDocumentIdentity);
+  Mono<Customer> findByDocumentIdentity_NumberAndDocumentIdentity_TypeDocumentIdentity(
+      String numberDocumentIdentity, TypeDocumentIdentity typeDocumentIdentity);
 }
