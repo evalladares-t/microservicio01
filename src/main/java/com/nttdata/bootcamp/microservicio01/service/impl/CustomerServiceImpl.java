@@ -1,15 +1,22 @@
 package com.nttdata.bootcamp.microservicio01.service.impl;
 
 import com.nttdata.bootcamp.microservicio01.model.Customer;
+import com.nttdata.bootcamp.microservicio01.model.dto.AccountDto;
+import com.nttdata.bootcamp.microservicio01.model.dto.CreditDto;
+import com.nttdata.bootcamp.microservicio01.model.dto.CustomerFullDto;
 import com.nttdata.bootcamp.microservicio01.repository.CustomerRepository;
 import com.nttdata.bootcamp.microservicio01.service.CustomerService;
+import com.nttdata.bootcamp.microservicio01.utils.Mapper.CustomerMapper;
 import com.nttdata.bootcamp.microservicio01.utils.constant.ErrorCode;
 import com.nttdata.bootcamp.microservicio01.utils.exception.OperationNoCompletedException;
 import java.lang.reflect.Field;
+import java.util.List;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
+import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -19,8 +26,14 @@ public class CustomerServiceImpl implements CustomerService {
 
   private CustomerRepository customerRepository;
 
-  public CustomerServiceImpl(CustomerRepository customerRepository) {
+  private WebClient webClientCredit;
+
+  private WebClient webClientAccount;
+
+  public CustomerServiceImpl(CustomerRepository customerRepository, WebClient webClientCredit, WebClient webClientAccount) {
     this.customerRepository = customerRepository;
+    this.webClientCredit = webClientCredit;
+    this.webClientAccount = webClientAccount;
   }
 
   @Override
@@ -48,15 +61,27 @@ public class CustomerServiceImpl implements CustomerService {
   }
 
   @Override
-  public Mono<Customer> findById(String customerId) {
+  public Mono<CustomerFullDto> findById(String customerId) {
     log.info("Find by id a customer in the service.");
     return customerRepository
         .findById(customerId)
-        .switchIfEmpty(
-            Mono.error(
-                new OperationNoCompletedException(
-                    ErrorCode.OPERATION_NO_COMPLETED.getCode(),
-                    ErrorCode.OPERATION_NO_COMPLETED.getMessage())));
+            .flatMap(customer -> {
+              CustomerFullDto customerFullDto = CustomerMapper.toDTO(customer);
+              Mono<List<AccountDto>> accountsMono = findByIdCustomerAccount(customer.getId())
+                      .filter(AccountDto::getActive)
+                      .collectList();
+
+              Mono<List<CreditDto>> creditsMono = findByIdCustomerCredit(customer.getId())
+                      .filter(CreditDto::getActive)
+                      .collectList();
+
+              return Mono.zip(accountsMono, creditsMono)
+                      .map(tuple -> {
+                        customerFullDto.setAccountDto(tuple.getT1());
+                        customerFullDto.setCreditDto(tuple.getT2());
+                        return customerFullDto;
+                      });
+            });
   }
 
   @Override
@@ -134,5 +159,23 @@ public class CustomerServiceImpl implements CustomerService {
                     ErrorCode.CUSTOMER_NO_DELETED.getMessage())))
         .doOnNext(p -> p.setActive(false))
         .flatMap(customerRepository::save);
+  }
+
+  public Flux<AccountDto> findByIdCustomerAccount(String customerId) {
+    log.info("Getting accouunt for customerId: [{}]", customerId);
+    return this.webClientAccount
+            .get()
+            .uri(uriBuilder -> uriBuilder.path("v1/account/customer/" + customerId).build())
+            .retrieve()
+            .bodyToFlux(AccountDto.class);
+  }
+
+  public Flux<CreditDto> findByIdCustomerCredit(String customerId) {
+    log.info("Getting accouunt for customerId: [{}]", customerId);
+    return this.webClientCredit
+            .get()
+            .uri(uriBuilder -> uriBuilder.path("v1/credit/customer/" + customerId).build())
+            .retrieve()
+            .bodyToFlux(CreditDto.class);
   }
 }

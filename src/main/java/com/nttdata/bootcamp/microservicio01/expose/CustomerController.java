@@ -1,6 +1,7 @@
 package com.nttdata.bootcamp.microservicio01.expose;
 
 import com.nttdata.bootcamp.microservicio01.model.Customer;
+import com.nttdata.bootcamp.microservicio01.model.dto.CustomerFullDto;
 import com.nttdata.bootcamp.microservicio01.service.CustomerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +35,7 @@ public class CustomerController {
   }
 
   @GetMapping({"/{id}/", "/{id}"})
-  public Mono<ResponseEntity<Customer>> findbyId(@PathVariable("id") String id) {
+  public Mono<ResponseEntity<CustomerFullDto>> findbyId(@PathVariable("id") String id) {
     log.info("Find by id a customer in the controller.");
     return customerService
         .findById(id)

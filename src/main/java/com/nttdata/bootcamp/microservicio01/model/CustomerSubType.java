@@ -5,9 +5,10 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum CustomerType {
-  PERSONAL("PERSONAL", true),
-  BUSINESS("BUSINESS", true);
+public enum CustomerSubType {
+  REGULAR("REGULAR", true),
+  VIP("VIP", true),
+  MYPE("MYPE", true);
 
   private final String description;
   private final boolean isActive;
