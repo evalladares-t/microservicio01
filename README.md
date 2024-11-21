@@ -8,12 +8,32 @@ This microservice handles customer management, including operations such as crea
 
 - **Java 20**
 - **Maven**
-- **Docker**
+- **Docker** (for Docker execution only)
 - Red Docker compartida: `my-network`
 
 ## Initial Configuration
 
-### Modify the file`bootstrap.yml`
+### Run Locally
+
+#### Modify the file`bootstrap.yml`
+
+Configure the active profile to use Docker:
+
+```yaml
+spring:
+  profiles:
+    active: local
+```
+
+#### Execute the Main Class
+
+```yaml
+mvn spring-boot:run
+```
+
+### Run Docker
+
+#### Modify the file`bootstrap.yml`
 
 Configure the active profile to use Docker:
 
@@ -22,14 +42,14 @@ spring:
   profiles:
     active: docker
 ```
-## Compile and generate the Docker container
+#### Compile and generate the Docker container
 Build the Docker image with:
 
 ```yaml
 docker build -t microservicio01:0.0.1-SNAPSHOT .
 ```
 
-## Run the microservice Docker container
+####  Run the microservice Docker container
 Start the container with:
 
 ```yaml
