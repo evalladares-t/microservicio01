@@ -173,7 +173,12 @@ public class CustomerServiceImpl implements CustomerService {
         .get()
         .uri(uriBuilder -> uriBuilder.path("v1/accounts/customer/" + customerId).build())
         .retrieve()
-        .bodyToFlux(AccountDto.class);
+        .bodyToFlux(AccountDto.class)
+        .onErrorResume(
+            error -> {
+              System.err.println("Error during call: " + error.getMessage());
+              return Flux.empty();
+            });
   }
 
   public Flux<CreditDto> findByIdCustomerCredit(String customerId) {
@@ -182,6 +187,11 @@ public class CustomerServiceImpl implements CustomerService {
         .get()
         .uri(uriBuilder -> uriBuilder.path("v1/credits/customer/" + customerId).build())
         .retrieve()
-        .bodyToFlux(CreditDto.class);
+        .bodyToFlux(CreditDto.class)
+        .onErrorResume(
+            error -> {
+              System.err.println("Error during call: " + error.getMessage());
+              return Flux.empty();
+            });
   }
 }
