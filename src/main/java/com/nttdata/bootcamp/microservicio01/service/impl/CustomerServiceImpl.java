@@ -165,7 +165,7 @@ public class CustomerServiceImpl implements CustomerService {
     log.info("Getting accouunt for customerId: [{}]", customerId);
     return this.webClientAccount
             .get()
-            .uri(uriBuilder -> uriBuilder.path("v1/account/customer/" + customerId).build())
+            .uri(uriBuilder -> uriBuilder.path("v1/accounts/customer/" + customerId).build())
             .retrieve()
             .bodyToFlux(AccountDto.class);
   }
@@ -174,7 +174,7 @@ public class CustomerServiceImpl implements CustomerService {
     log.info("Getting accouunt for customerId: [{}]", customerId);
     return this.webClientCredit
             .get()
-            .uri(uriBuilder -> uriBuilder.path("v1/credit/customer/" + customerId).build())
+            .uri(uriBuilder -> uriBuilder.path("v1/credits/customer/" + customerId).build())
             .retrieve()
             .bodyToFlux(CreditDto.class);
   }
