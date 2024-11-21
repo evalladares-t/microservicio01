@@ -57,6 +57,10 @@ Start the container with:
 docker run --name microservicio01 --network my-network -p 8081:8081 microservicio01:0.0.1-SNAPSHOT
 ```
 
+## Resources:
+- **Resource link  - https://github.com/evalladares-t/resource-bootcamp57**
+- **Link github  - https://github.com/evalladares-t**
+
 ## Notes:
 - **If you need to change ports or other settings, edit the corresponding application.yml and Dockerfile files.**
 - **To debug errors, check the container logs:**
