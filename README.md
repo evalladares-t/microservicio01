@@ -1,4 +1,4 @@
-# Customer Microservice (Microservicio01)
+# Customer Microservice (microservicio01)
 
 ## Description
 
@@ -30,6 +30,7 @@ spring:
 ```yaml
 mvn spring-boot:run
 ```
+Alternatively, if using an IDE (e.g., IntelliJ IDEA, Eclipse), navigate to the Microservicio01Application class and run it directly.
 
 ### Run Docker
 
