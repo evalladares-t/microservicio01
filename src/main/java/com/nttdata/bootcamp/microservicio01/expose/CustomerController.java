@@ -35,12 +35,9 @@ public class CustomerController {
   }
 
   @GetMapping({"/{id}/", "/{id}"})
-  public Mono<ResponseEntity<CustomerFullDto>> findbyId(@PathVariable("id") String id) {
+  public Mono<Customer> findbyId(@PathVariable("id") String id) {
     log.info("Find by id a customer in the controller.");
-    return customerService
-        .findById(id)
-        .flatMap(customerCreate -> Mono.just(ResponseEntity.ok(customerCreate)))
-        .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));
+    return customerService.findById(id);
   }
 
   @PostMapping({"", "/"})
@@ -78,6 +75,15 @@ public class CustomerController {
     return customerService
         .remove(id)
         .flatMap(customer -> Mono.just(ResponseEntity.ok(customer)))
+        .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));
+  }
+
+  @GetMapping({"/{id}/full/", "/{id}/full"})
+  public Mono<ResponseEntity<CustomerFullDto>> findbyIdFull(@PathVariable("id") String id) {
+    log.info("Find by id a customer in the controller.");
+    return customerService
+        .findByIdFull(id)
+        .flatMap(customerCreate -> Mono.just(ResponseEntity.ok(customerCreate)))
         .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));
   }
 }

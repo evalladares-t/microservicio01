@@ -8,7 +8,9 @@ import reactor.core.publisher.Mono;
 
 public interface CustomerService {
 
-  Mono<CustomerFullDto> findById(String customerId);
+  Mono<Customer> findById(String customerId);
+
+  Mono<CustomerFullDto> findByIdFull(String customerId);
 
   Flux<Customer> findAll();
 

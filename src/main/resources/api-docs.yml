@@ -1,0 +1,312 @@
+openapi: 3.0.1
+info:
+  title: Customer Service - microservicio01
+  description: This microservice handles customer management, including operations such as creating, updating, and deleting profiles. You can also provide functionality to associate customers with other elements, such as accounts or credits. It serves as the core of user information in the system.
+  version: 0.0.1-SNAPSHOT
+  contact:
+    email: evalladarestav@gmail.com
+servers:
+  - url: http://localhost:8081
+paths:
+  /api/v1/customers/{id}:
+    get:
+      tags:
+        - customer-controller
+      description : "Supports both with and without trailing slash at the endpoint."
+      operationId: findbyId
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Customer"
+    put:
+      tags:
+        - customer-controller
+      operationId: update
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Customer"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Customer"
+    delete:
+      tags:
+        - customer-controller
+      operationId: delete
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Customer"
+    patch:
+      tags:
+        - customer-controller
+      operationId: change
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Customer"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Customer"
+  /api/v1/customers/:
+    get:
+      tags:
+        - customer-controller
+      operationId: findAll
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Customer"
+    post:
+      tags:
+        - customer-controller
+      operationId: create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Customer"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Customer"
+  /api/v1/customers/{id}/full/:
+    get:
+      tags:
+        - customer-controller
+      operationId: findbyIdFull
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/CustomerFullDto"
+components:
+  schemas:
+    Address:
+      type: object
+      properties:
+        type:
+          type: string
+          example: Hogar
+        name:
+          type: string
+          example: St 3 Gr 9 Mz E Lt13
+        number:
+          type: integer
+          format: int32
+        province:
+          type: string
+          example: Lima
+        district:
+          type: string
+          example: Villa El Salvador
+        department:
+          type: string
+          example: Lima
+    Contact:
+      type: object
+      properties:
+        email:
+          type: string
+          example: evalladarestav@gmail.com
+        address:
+          $ref: "#/components/schemas/Address"
+        phone:
+          type: string
+          example: 940811595
+    Customer:
+      type: object
+      properties:
+        id:
+          type: string
+        customerType:
+          type: string
+          enum:
+            - PERSONAL
+            - BUSINESS
+        customerSubType:
+          type: string
+          enum:
+            - REGULAR
+            - VIP
+            - MYPE
+        firstName:
+          type: string
+          example: Edward
+        lastName:
+          type: string
+          example: Valladares
+        documentIdentity:
+          $ref: "#/components/schemas/DocumentIdentity"
+        contact:
+          $ref: "#/components/schemas/Contact"
+        dateBirth:
+          type: string
+          format: date
+        sex:
+          type: string
+          example: M
+        active:
+          type: boolean
+    DocumentIdentity:
+      type: object
+      properties:
+        number:
+          type: string
+          example: 76466285
+        typeDocumentIdentity:
+          type: string
+          enum:
+            - DNI
+            - CE
+            - PASSPORT
+            - RUC
+        active:
+          type: boolean
+    AccountDto:
+      type: object
+      properties:
+        id:
+          type: string
+        accountNumber:
+          type: string
+        customer:
+          type: string
+        accountType:
+          type: string
+          enum:
+            - SAVING
+            - CURRENT
+            - FIXED_TERM
+        currency:
+          type: string
+        amountAvailable:
+          type: number
+        active:
+          type: boolean
+    CreditDto:
+      type: object
+      properties:
+        id:
+          type: string
+        creditNumber:
+          type: string
+        customerId:
+          type: string
+        creditType:
+          type: string
+          enum:
+            - PERSONAL
+            - BUSINESS
+            - CARD_BANK
+        currency:
+          type: string
+        creditLimit:
+          type: number
+        amountAvailable:
+          type: number
+        business:
+          type: boolean
+        active:
+          type: boolean
+    CustomerFullDto:
+      type: object
+      properties:
+        id:
+          type: string
+        customerType:
+          type: string
+          enum:
+            - PERSONAL
+            - BUSINESS
+        customerSubType:
+          type: string
+          enum:
+            - REGULAR
+            - VIP
+            - MYPE
+        firstName:
+          type: string
+          example: Edward
+        lastName:
+          type: string
+          example: Valladares
+        documentIdentity:
+          $ref: "#/components/schemas/DocumentIdentity"
+        contact:
+          $ref: "#/components/schemas/Contact"
+        dateBirth:
+          type: string
+          format: date
+        sex:
+          type: string
+          example: M
+        accountDto:
+          type: array
+          items:
+            $ref: "#/components/schemas/AccountDto"
+        creditDto:
+          type: array
+          items:
+            $ref: "#/components/schemas/CreditDto"
+        active:
+          type: boolean

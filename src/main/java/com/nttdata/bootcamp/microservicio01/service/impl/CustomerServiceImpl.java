@@ -63,7 +63,12 @@ public class CustomerServiceImpl implements CustomerService {
   }
 
   @Override
-  public Mono<CustomerFullDto> findById(String customerId) {
+  public Mono<Customer> findById(String accountId) {
+    return customerRepository.findById(accountId);
+  }
+
+  @Override
+  public Mono<CustomerFullDto> findByIdFull(String customerId) {
     log.info("Find by id a customer in the service.");
     return customerRepository
         .findById(customerId)

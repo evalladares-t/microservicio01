@@ -3,3 +3,11 @@ spring:
     name: microservicio01
   profiles:
     active: local
+
+
+springdoc:
+  api-docs:
+    enabled: true # Activa la generación de OpenAPI
+  swagger-ui:
+    enabled: true # Activa el Swagger UI
+    path: /swagger-ui.html # Ruta para acceder al Swagger UI
