@@ -11,7 +11,6 @@ import com.nttdata.bootcamp.microservicio01.utils.constant.ErrorCode;
 import com.nttdata.bootcamp.microservicio01.utils.exception.OperationNoCompletedException;
 import java.lang.reflect.Field;
 import java.util.List;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -30,7 +29,10 @@ public class CustomerServiceImpl implements CustomerService {
 
   private WebClient webClientAccount;
 
-  public CustomerServiceImpl(CustomerRepository customerRepository, WebClient webClientCredit, WebClient webClientAccount) {
+  public CustomerServiceImpl(
+      CustomerRepository customerRepository,
+      WebClient webClientCredit,
+      WebClient webClientAccount) {
     this.customerRepository = customerRepository;
     this.webClientCredit = webClientCredit;
     this.webClientAccount = webClientAccount;
@@ -65,18 +67,22 @@ public class CustomerServiceImpl implements CustomerService {
     log.info("Find by id a customer in the service.");
     return customerRepository
         .findById(customerId)
-            .flatMap(customer -> {
+        .flatMap(
+            customer -> {
               CustomerFullDto customerFullDto = CustomerMapper.toDTO(customer);
-              Mono<List<AccountDto>> accountsMono = findByIdCustomerAccount(customer.getId())
+              Mono<List<AccountDto>> accountsMono =
+                  findByIdCustomerAccount(customer.getId())
                       .filter(AccountDto::getActive)
                       .collectList();
 
-              Mono<List<CreditDto>> creditsMono = findByIdCustomerCredit(customer.getId())
+              Mono<List<CreditDto>> creditsMono =
+                  findByIdCustomerCredit(customer.getId())
                       .filter(CreditDto::getActive)
                       .collectList();
 
               return Mono.zip(accountsMono, creditsMono)
-                      .map(tuple -> {
+                  .map(
+                      tuple -> {
                         customerFullDto.setAccountDto(tuple.getT1());
                         customerFullDto.setCreditDto(tuple.getT2());
                         return customerFullDto;
@@ -164,18 +170,18 @@ public class CustomerServiceImpl implements CustomerService {
   public Flux<AccountDto> findByIdCustomerAccount(String customerId) {
     log.info("Getting accouunt for customerId: [{}]", customerId);
     return this.webClientAccount
-            .get()
-            .uri(uriBuilder -> uriBuilder.path("v1/accounts/customer/" + customerId).build())
-            .retrieve()
-            .bodyToFlux(AccountDto.class);
+        .get()
+        .uri(uriBuilder -> uriBuilder.path("v1/accounts/customer/" + customerId).build())
+        .retrieve()
+        .bodyToFlux(AccountDto.class);
   }
 
   public Flux<CreditDto> findByIdCustomerCredit(String customerId) {
     log.info("Getting accouunt for customerId: [{}]", customerId);
     return this.webClientCredit
-            .get()
-            .uri(uriBuilder -> uriBuilder.path("v1/credits/customer/" + customerId).build())
-            .retrieve()
-            .bodyToFlux(CreditDto.class);
+        .get()
+        .uri(uriBuilder -> uriBuilder.path("v1/credits/customer/" + customerId).build())
+        .retrieve()
+        .bodyToFlux(CreditDto.class);
   }
 }
