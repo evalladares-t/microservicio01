@@ -8,7 +8,7 @@ import lombok.Getter;
 public enum CustomerSubType {
   REGULAR("REGULAR", true),
   VIP("VIP", true),
-  MYPE("MYPE", true);
+  PYME("PYME", true);
 
   private final String description;
   private final boolean isActive;

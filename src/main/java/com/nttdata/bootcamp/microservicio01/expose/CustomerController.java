@@ -35,7 +35,7 @@ public class CustomerController {
   }
 
   @GetMapping({"/{id}/", "/{id}"})
-  public Mono<Customer> findbyId(@PathVariable("id") String id) {
+  public Mono<Customer> findById(@PathVariable("id") String id) {
     log.info("Find by id a customer in the controller.");
     return customerService.findById(id);
   }

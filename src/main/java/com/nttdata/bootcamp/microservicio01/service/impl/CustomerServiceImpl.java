@@ -187,7 +187,7 @@ public class CustomerServiceImpl implements CustomerService {
   }
 
   public Flux<CreditDto> findByIdCustomerCredit(String customerId) {
-    log.info("Getting accouunt for customerId: [{}]", customerId);
+    log.info("Getting credit for customerId: [{}]", customerId);
     return this.webClientCredit
         .get()
         .uri(uriBuilder -> uriBuilder.path("v1/credits/customer/" + customerId).build())
