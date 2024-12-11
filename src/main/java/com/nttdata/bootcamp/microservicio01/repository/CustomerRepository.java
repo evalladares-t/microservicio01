@@ -11,4 +11,11 @@ public interface CustomerRepository extends ReactiveMongoRepository<Customer, St
 
   Mono<Customer> findByDocumentIdentity_NumberAndDocumentIdentity_TypeDocumentIdentity(
       String numberDocumentIdentity, TypeDocumentIdentity typeDocumentIdentity);
+
+  Mono<Customer>
+  findByDocumentIdentity_NumberAndDocumentIdentity_TypeDocumentIdentityAndContact_PhoneAndContact_Email(
+          String numberDocumentIdentity,
+          TypeDocumentIdentity typeDocumentIdentity,
+          String phone,
+          String email);
 }

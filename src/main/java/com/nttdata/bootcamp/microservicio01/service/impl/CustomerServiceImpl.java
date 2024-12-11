@@ -2,6 +2,7 @@ package com.nttdata.bootcamp.microservicio01.service.impl;
 
 import com.nttdata.bootcamp.microservicio01.model.Customer;
 import com.nttdata.bootcamp.microservicio01.model.dto.AccountDto;
+import com.nttdata.bootcamp.microservicio01.model.dto.ClientP2p;
 import com.nttdata.bootcamp.microservicio01.model.dto.CreditDto;
 import com.nttdata.bootcamp.microservicio01.model.dto.CustomerFullDto;
 import com.nttdata.bootcamp.microservicio01.repository.CustomerRepository;
@@ -198,5 +199,15 @@ public class CustomerServiceImpl implements CustomerService {
               System.err.println("Error during call: " + error.getMessage());
               return Flux.empty();
             });
+  }
+
+  public Mono<Customer> findByValidateP2p(ClientP2p clientP2p) {
+    log.info(clientP2p.getContact().getEmail(), clientP2p.getDocumentIdentity().getNumber());
+    return customerRepository
+        .findByDocumentIdentity_NumberAndDocumentIdentity_TypeDocumentIdentityAndContact_PhoneAndContact_Email(
+            clientP2p.getDocumentIdentity().getNumber(),
+                clientP2p.getDocumentIdentity().getTypeDocumentIdentity(),
+            clientP2p.getContact().getPhoneNumber(), clientP2p.getContact().getEmail())
+        .switchIfEmpty(Mono.empty());
   }
 }

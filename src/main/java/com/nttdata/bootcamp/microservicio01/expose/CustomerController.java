@@ -1,6 +1,7 @@
 package com.nttdata.bootcamp.microservicio01.expose;
 
 import com.nttdata.bootcamp.microservicio01.model.Customer;
+import com.nttdata.bootcamp.microservicio01.model.dto.ClientP2p;
 import com.nttdata.bootcamp.microservicio01.model.dto.CustomerFullDto;
 import com.nttdata.bootcamp.microservicio01.service.CustomerService;
 import lombok.extern.slf4j.Slf4j;
@@ -85,5 +86,11 @@ public class CustomerController {
         .findByIdFull(id)
         .flatMap(customerCreate -> Mono.just(ResponseEntity.ok(customerCreate)))
         .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));
+  }
+
+  @PostMapping({"/findClientP2p", "/findClientP2p/"})
+  public Mono<Customer> findClientP2p(@RequestBody ClientP2p clientP2p) {
+    log.info("Find by findClientP2p a customer in the controller.");
+    return customerService.findByValidateP2p(clientP2p);
   }
 }

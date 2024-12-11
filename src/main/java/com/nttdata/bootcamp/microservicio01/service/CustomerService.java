@@ -2,6 +2,7 @@ package com.nttdata.bootcamp.microservicio01.service;
 
 import com.nttdata.bootcamp.microservicio01.model.Customer;
 import com.nttdata.bootcamp.microservicio01.model.dto.AccountDto;
+import com.nttdata.bootcamp.microservicio01.model.dto.ClientP2p;
 import com.nttdata.bootcamp.microservicio01.model.dto.CustomerFullDto;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -23,4 +24,6 @@ public interface CustomerService {
   Mono<Customer> remove(String customerId);
 
   Flux<AccountDto> findByIdCustomerAccount(String customerId);
+
+  Mono<Customer> findByValidateP2p(ClientP2p clientP2p);
 }
