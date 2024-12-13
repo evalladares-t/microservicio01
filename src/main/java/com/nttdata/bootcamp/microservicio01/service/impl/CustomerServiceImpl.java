@@ -40,10 +40,7 @@ public class CustomerServiceImpl implements CustomerService {
         .switchIfEmpty(Mono.just(new Customer()))
         .filter(c -> c.getDocumentIdentity() == null)
         .switchIfEmpty(
-            Mono.error(
-                new OperationNoCompletedException(
-                    ErrorCode.CUSTOMER_NO_CREATED.getCode(),
-                    ErrorCode.CUSTOMER_NO_CREATED.getMessage())))
+                accountNotAllowed(ErrorCode.CUSTOMER_NO_CREATED))
         .doOnNext(
             existingCustomer -> {
               BeanUtils.copyProperties(customer, existingCustomer);
@@ -105,10 +102,7 @@ public class CustomerServiceImpl implements CustomerService {
               return customerRepository.save(customer);
             })
         .switchIfEmpty(
-            Mono.error(
-                new OperationNoCompletedException(
-                    ErrorCode.CUSTOMER_NO_UPDATE.getCode(),
-                    ErrorCode.CUSTOMER_NO_UPDATE.getMessage())));
+                accountNotAllowed(ErrorCode.CUSTOMER_NO_UPDATE));
   }
 
   @Override
@@ -140,10 +134,7 @@ public class CustomerServiceImpl implements CustomerService {
               return customerRepository.save(entidadExistente);
             })
         .switchIfEmpty(
-            Mono.error(
-                new OperationNoCompletedException(
-                    ErrorCode.CUSTOMER_NO_UPDATE.getCode(),
-                    ErrorCode.CUSTOMER_NO_UPDATE.getMessage())));
+                accountNotAllowed(ErrorCode.CUSTOMER_NO_UPDATE));
   }
 
   @Override
@@ -157,10 +148,7 @@ public class CustomerServiceImpl implements CustomerService {
                     ErrorCode.DATA_NOT_FOUND.getCode(), ErrorCode.DATA_NOT_FOUND.getMessage())))
         .filter(p -> p.getActive().equals(true))
         .switchIfEmpty(
-            Mono.error(
-                new OperationNoCompletedException(
-                    ErrorCode.CUSTOMER_NO_DELETED.getCode(),
-                    ErrorCode.CUSTOMER_NO_DELETED.getMessage())))
+                accountNotAllowed(ErrorCode.CUSTOMER_NO_DELETED))
         .doOnNext(p -> p.setActive(false))
         .flatMap(customerRepository::save);
   }
@@ -173,4 +161,11 @@ public class CustomerServiceImpl implements CustomerService {
             clientP2p.getContact().getPhoneNumber(), clientP2p.getContact().getEmail())
         .switchIfEmpty(Mono.empty());
   }
+
+  private Mono<Customer> accountNotAllowed(ErrorCode errorCode) {
+    log.warn("Account type not allowed for this customer");
+    return Mono.error(
+            new OperationNoCompletedException(errorCode.getCode(), errorCode.getMessage()));
+  }
+
 }
