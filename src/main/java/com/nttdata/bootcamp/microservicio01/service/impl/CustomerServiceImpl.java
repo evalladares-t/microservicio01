@@ -13,6 +13,8 @@ import com.nttdata.bootcamp.microservicio01.utils.exception.OperationNoCompleted
 import com.nttdata.bootcamp.microservicio01.utils.mapper.CustomerMapper;
 import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Optional;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -121,11 +123,8 @@ public class CustomerServiceImpl implements CustomerService {
                 field.setAccessible(true); // Para acceder a campos privados
                 try {
                   // Verificar si el valor del campo en entidadParcial no es null
-                  Object value = field.get(customer);
-                  if (value != null) {
-                    // Actualizar el campo correspondiente en entidadExistente
-                    ReflectionUtils.setField(field, entidadExistente, value);
-                  }
+                  Optional.ofNullable(field.get(customer))
+                          .ifPresent(value -> ReflectionUtils.setField(field, entidadExistente, value));
                 } catch (IllegalAccessException e) {
                   e.printStackTrace();
                 }
@@ -143,9 +142,7 @@ public class CustomerServiceImpl implements CustomerService {
     return customerRepository
         .findById(customerId)
         .switchIfEmpty(
-            Mono.error(
-                new OperationNoCompletedException(
-                    ErrorCode.DATA_NOT_FOUND.getCode(), ErrorCode.DATA_NOT_FOUND.getMessage())))
+            accountNotAllowed(ErrorCode.DATA_NOT_FOUND))
         .filter(p -> p.getActive().equals(true))
         .switchIfEmpty(
                 accountNotAllowed(ErrorCode.CUSTOMER_NO_DELETED))
