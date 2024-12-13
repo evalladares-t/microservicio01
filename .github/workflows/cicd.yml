@@ -27,11 +27,12 @@ jobs:
       - name: Set up Java 20
         uses: actions/setup-java@v2
         with:
-          java-version: '20'
-          distribution: 'temurin'
+          java-version: '20'         # Especifica la versión de Java
+          distribution: 'temurin'    # Especifica la distribución (temurin es recomendado)
+          cache: 'gradle'            # Habilita el caché para Gradle
 
       - name: Build with Gradle
         run: ./gradlew build
 
-      - name: Run Tests
+      - name: Run tests
         run: ./gradlew test
