@@ -1,5 +1,6 @@
 package com.nttdata.bootcamp.microservicio01.service.impl;
 
+import com.nttdata.bootcamp.microservicio01.config.WebClientHelper;
 import com.nttdata.bootcamp.microservicio01.model.Customer;
 import com.nttdata.bootcamp.microservicio01.model.dto.AccountDto;
 import com.nttdata.bootcamp.microservicio01.model.dto.ClientP2p;
@@ -7,16 +8,16 @@ import com.nttdata.bootcamp.microservicio01.model.dto.CreditDto;
 import com.nttdata.bootcamp.microservicio01.model.dto.CustomerFullDto;
 import com.nttdata.bootcamp.microservicio01.repository.CustomerRepository;
 import com.nttdata.bootcamp.microservicio01.service.CustomerService;
-import com.nttdata.bootcamp.microservicio01.utils.Mapper.CustomerMapper;
 import com.nttdata.bootcamp.microservicio01.utils.constant.ErrorCode;
 import com.nttdata.bootcamp.microservicio01.utils.exception.OperationNoCompletedException;
+import com.nttdata.bootcamp.microservicio01.utils.mapper.CustomerMapper;
 import java.lang.reflect.Field;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
-import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -24,20 +25,9 @@ import reactor.core.publisher.Mono;
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
-  private CustomerRepository customerRepository;
+  @Autowired private CustomerRepository customerRepository;
 
-  private WebClient webClientCredit;
-
-  private WebClient webClientAccount;
-
-  public CustomerServiceImpl(
-      CustomerRepository customerRepository,
-      WebClient webClientCredit,
-      WebClient webClientAccount) {
-    this.customerRepository = customerRepository;
-    this.webClientCredit = webClientCredit;
-    this.webClientAccount = webClientAccount;
-  }
+  @Autowired private WebClientHelper webClientHelper;
 
   @Override
   public Mono<Customer> create(Customer customer) {
@@ -75,14 +65,16 @@ public class CustomerServiceImpl implements CustomerService {
         .findById(customerId)
         .flatMap(
             customer -> {
-              CustomerFullDto customerFullDto = CustomerMapper.toDTO(customer);
+              CustomerFullDto customerFullDto = CustomerMapper.toDto(customer);
               Mono<List<AccountDto>> accountsMono =
-                  findByIdCustomerAccount(customer.getId())
+                  webClientHelper
+                      .findByIdCustomerAccount(customer.getId())
                       .filter(AccountDto::getActive)
                       .collectList();
 
               Mono<List<CreditDto>> creditsMono =
-                  findByIdCustomerCredit(customer.getId())
+                  webClientHelper
+                      .findByIdCustomerCredit(customer.getId())
                       .filter(CreditDto::getActive)
                       .collectList();
 
@@ -141,7 +133,7 @@ public class CustomerServiceImpl implements CustomerService {
                     ReflectionUtils.setField(field, entidadExistente, value);
                   }
                 } catch (IllegalAccessException e) {
-                  e.printStackTrace(); // Manejo de errores si hay problemas con la reflexión
+                  e.printStackTrace();
                 }
               }
               // Guardar la entidad modificada
@@ -173,36 +165,7 @@ public class CustomerServiceImpl implements CustomerService {
         .flatMap(customerRepository::save);
   }
 
-  public Flux<AccountDto> findByIdCustomerAccount(String customerId) {
-    log.info("Getting accouunt for customerId: [{}]", customerId);
-    return this.webClientAccount
-        .get()
-        .uri(uriBuilder -> uriBuilder.path("v1/accounts/customer/" + customerId).build())
-        .retrieve()
-        .bodyToFlux(AccountDto.class)
-        .onErrorResume(
-            error -> {
-              System.err.println("Error during call: " + error.getMessage());
-              return Flux.empty();
-            });
-  }
-
-  public Flux<CreditDto> findByIdCustomerCredit(String customerId) {
-    log.info("Getting credit for customerId: [{}]", customerId);
-    return this.webClientCredit
-        .get()
-        .uri(uriBuilder -> uriBuilder.path("v1/credits/customer/" + customerId).build())
-        .retrieve()
-        .bodyToFlux(CreditDto.class)
-        .onErrorResume(
-            error -> {
-              System.err.println("Error during call: " + error.getMessage());
-              return Flux.empty();
-            });
-  }
-
   public Mono<Customer> findByValidateP2p(ClientP2p clientP2p) {
-    log.info(clientP2p.getContact().getEmail(), clientP2p.getDocumentIdentity().getNumber());
     return customerRepository
         .findByDocumentIdentity_NumberAndDocumentIdentity_TypeDocumentIdentityAndContact_PhoneAndContact_Email(
             clientP2p.getDocumentIdentity().getNumber(),

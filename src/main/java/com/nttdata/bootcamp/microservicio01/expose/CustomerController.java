@@ -5,6 +5,7 @@ import com.nttdata.bootcamp.microservicio01.model.dto.ClientP2p;
 import com.nttdata.bootcamp.microservicio01.model.dto.CustomerFullDto;
 import com.nttdata.bootcamp.microservicio01.service.CustomerService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,11 +24,7 @@ import reactor.core.publisher.Mono;
 @RequestMapping("api/v1/customers")
 public class CustomerController {
 
-  private CustomerService customerService;
-
-  public CustomerController(CustomerService customerService) {
-    this.customerService = customerService;
-  }
+  @Autowired private CustomerService customerService;
 
   @GetMapping({"", "/"})
   public Flux<Customer> findAll() {
