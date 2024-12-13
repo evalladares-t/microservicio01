@@ -47,7 +47,6 @@ public class CustomerServiceImplTest {
     StepVerifier.create(customerServiceImpl.create(newCustomer))
         .consumeNextWith(
             customer -> {
-              System.out.println("Emitted Customer: " + customer);
               assertNotNull(customer);
               assertEquals("12345678", customer.getDocumentIdentity().getNumber());
               assertEquals(
